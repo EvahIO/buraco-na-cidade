@@ -761,7 +761,7 @@ async function deleteReport(id, isOwner) {
 
 // ── SHARE ──
 function shareModal(id, addr, sev) {
-  const url="https://buraco-na-cidade.netlify.app", txt=`🕳️ Buraco ${sevLabel(sev)} em: ${addr} — veja no Buraco na Cidade!`;
+  const url="https://buraco-na-cidade.vercel.app", txt=`🕳️ Buraco ${sevLabel(sev)} em: ${addr} — veja no Buraco na Cidade!`;
   document.getElementById("modal-container").innerHTML=`<div class="modal-overlay" onclick="closeModal()"><div class="modal" onclick="event.stopPropagation()" style="max-width:380px"><div class="modal-header"><span class="modal-title">🔗 Compartilhar</span><button class="close-btn" onclick="closeModal()">✕</button></div><div class="modal-body"><p style="font-size:.81rem;color:var(--muted);margin-bottom:10px">Ajude a pressionar pela correção!</p><div class="share-grid"><div class="share-option" onclick="window.open('https://wa.me/?text=${encodeURIComponent(txt+" "+url)}','_blank')">💬 WhatsApp</div><div class="share-option" onclick="window.open('https://twitter.com/intent/tweet?text=${encodeURIComponent(txt)}&url=${encodeURIComponent(url)}','_blank')">🐦 Twitter/X</div><div class="share-option" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}','_blank')">📘 Facebook</div><div class="share-option" onclick="navigator.clipboard.writeText('${url}').then(()=>{closeModal();showToast('📋','Link copiado!')})">📋 Copiar link</div></div><div class="share-link-box">${url}</div></div></div></div>`;
 }
 
@@ -1272,7 +1272,7 @@ async function submit(gps) {
 }
 
 function closeModal(){document.getElementById("modal-container").innerHTML="";}
-function signInWithGoogle(){window.location.href=SUPABASE_URL+"/auth/v1/authorize?provider=google&redirect_to="+encodeURIComponent("https://buraco-na-cidade.netlify.app");}
+function signInWithGoogle(){window.location.href=SUPABASE_URL+"/auth/v1/authorize?provider=google&redirect_to="+encodeURIComponent("https://buraco-na-cidade.vercel.app");}
 
 // ── TOAST ──
 function showToast(icon,title,body=""){
