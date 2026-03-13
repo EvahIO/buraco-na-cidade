@@ -368,6 +368,45 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--font-body);mi
   </div>
 </main>
 
+<section style="max-width:860px;margin:40px auto 0;padding:0 20px 40px">
+  <h2 style="font-family:var(--font-head);font-size:1.2rem;color:var(--text);margin-bottom:16px">O que é o Buraco na Cidade?</h2>
+  <p style="font-size:.88rem;color:var(--muted);line-height:1.7;margin-bottom:12px">
+    O <strong style="color:var(--text)">Buraco na Cidade</strong> é uma plataforma gratuita e colaborativa onde cidadãos podem registrar buracos e problemas nas vias públicas com foto, localização e descrição. O objetivo é criar um mapa público de ocorrências para pressionar o poder público pela correção das ruas.
+  </p>
+  <p style="font-size:.88rem;color:var(--muted);line-height:1.7;margin-bottom:24px">
+    Qualquer pessoa pode visualizar os reportes no mapa. Para registrar um novo buraco, basta fazer login com sua conta Google, tirar uma foto e confirmar a localização. Seu reporte fica visível para todos e pode receber votos de confirmação de outros moradores.
+  </p>
+
+  <h2 style="font-family:var(--font-head);font-size:1.2rem;color:var(--text);margin-bottom:16px">Como funciona?</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px">
+      <div style="font-size:1.5rem;margin-bottom:8px">📍</div>
+      <strong style="font-size:.85rem;color:var(--text)">1. Localize</strong>
+      <p style="font-size:.78rem;color:var(--muted);margin-top:4px;line-height:1.5">O GPS detecta automaticamente onde você está e confirma o endereço.</p>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px">
+      <div style="font-size:1.5rem;margin-bottom:8px">📷</div>
+      <strong style="font-size:.85rem;color:var(--text)">2. Fotografe</strong>
+      <p style="font-size:.78rem;color:var(--muted);margin-top:4px;line-height:1.5">Tire até 4 fotos do buraco direto pelo celular ou galeria.</p>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px">
+      <div style="font-size:1.5rem;margin-bottom:8px">🗺️</div>
+      <strong style="font-size:.85rem;color:var(--text)">3. Registre</strong>
+      <p style="font-size:.78rem;color:var(--muted);margin-top:4px;line-height:1.5">Seu reporte aparece no mapa público e fica visível para toda a comunidade.</p>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px">
+      <div style="font-size:1.5rem;margin-bottom:8px">👍</div>
+      <strong style="font-size:.85rem;color:var(--text)">4. Vote</strong>
+      <p style="font-size:.78rem;color:var(--muted);margin-top:4px;line-height:1.5">Confirme reportes de outros moradores e ajude a priorizar os mais graves.</p>
+    </div>
+  </div>
+
+  <h2 style="font-family:var(--font-head);font-size:1.2rem;color:var(--text);margin-bottom:12px">Por que reportar?</h2>
+  <p style="font-size:.88rem;color:var(--muted);line-height:1.7">
+    Buracos nas ruas causam acidentes, danos aos veículos e prejuízos à mobilidade urbana. Com dados georreferenciados e fotos reais, o <strong style="color:var(--text)">Buraco na Cidade</strong> oferece evidências concretas para que prefeituras, vereadores e órgãos públicos priorizem os reparos onde mais são necessários. Relate. Registre. Repare.
+  </p>
+</section>
+
 <footer class="app-footer">
   <p>Desenvolvido por <a href="https://wa.me/5545991112140?text=Quero%20ajudar%20com%20um%20pix%20o%20seu%20projeto" target="_blank" rel="noopener">Anisio Ramos</a></p>
   <p style="margin-top:4px">Quer criar o seu primeiro projeto com IA? Visite <a href="https://evah.io" target="_blank" rel="noopener">Evah.io</a></p>
@@ -753,16 +792,27 @@ async function deleteReport(id, isOwner) {
   if (!isOwner && !isAdmin) { showToast("❌","Sem permissão"); return; }
   const numId = Number(id);
   try {
-    await sbFetch(`/rest/v1/reports?id=eq.${numId}`, {
+    const r = await fetch(SUPABASE_URL + `/rest/v1/reports?id=eq.${numId}`, {
       method: "DELETE",
-      headers: { "Prefer": "return=minimal" }
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": "Bearer " + sessionToken,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      }
     });
+    if (!r.ok) {
+      const txt = await r.text();
+      console.error("Erro delete:", r.status, txt);
+      showToast("❌", "Erro " + r.status, txt);
+      return;
+    }
     allReports = allReports.filter(r => Number(r.id) !== numId);
     updateStats(); updateMap(allReports); renderReports();
     showToast("🗑️", isOwner ? "Sua contribuição foi removida" : "Reporte excluído");
   } catch(e) {
     console.error("Erro ao excluir:", e);
-    showToast("❌","Erro","Não foi possível excluir. Verifique as permissões.");
+    showToast("❌","Erro","Não foi possível excluir: " + e.message);
   }
 }
 
