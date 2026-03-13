@@ -63,7 +63,7 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--font-body);mi
 .drawer-overlay{position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,.6);backdrop-filter:blur(4px)}
 .drawer{position:fixed;top:0;right:0;height:100%;width:340px;max-width:92vw;background:var(--surface);border-left:1px solid var(--border);z-index:3001;display:flex;flex-direction:column;animation:slideIn .25s ease}
 @keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
-.discuss-drawer{position:fixed;bottom:0;left:0;right:0;height:70vh;max-height:70vh;background:var(--surface);border-top:2px solid var(--accent);border-radius:20px 20px 0 0;z-index:3001;display:flex;flex-direction:column;animation:slideUpDiscuss .3s ease}
+.discuss-drawer{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:860px;height:70vh;max-height:70vh;background:var(--surface);border-top:2px solid var(--accent);border-radius:20px 20px 0 0;z-index:3001;display:flex;flex-direction:column;animation:slideUpDiscuss .3s ease}
 @keyframes slideUpDiscuss{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .discuss-header{padding:16px 20px 12px;border-bottom:1px solid var(--border);flex-shrink:0;position:relative}
 .discuss-handle{width:40px;height:4px;background:var(--border);border-radius:4px;margin:0 auto 12px}
@@ -327,7 +327,7 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--font-body);mi
   .drawer{width:100%;max-width:100%;border-left:none;border-top:1px solid var(--border);border-radius:18px 18px 0 0;top:auto;bottom:0;height:auto;max-height:90vh;animation:slideUp2 .25s ease}
   @keyframes slideUp2{from{transform:translateY(100%)}to{transform:translateY(0)}}
   .avatar-dropdown{right:-4px;min-width:175px}
-  .discuss-drawer{height:80vh;max-height:80vh}
+  .discuss-drawer{height:80vh;max-height:80vh;max-width:100%;left:0;transform:none;border-radius:20px 20px 0 0}
 }
 @media(max-width:380px){
   .nav-logo-text{display:none}
@@ -599,7 +599,8 @@ const sevLabel = s=>({high:"Grave",medium:"Moderado",low:"Leve"}[s]||s);
 const initials = n=>(n||"?").split(" ").slice(0,2).map(x=>x[0]).join("").toUpperCase();
 const fmtDate  = d=>new Date(d).toLocaleDateString("pt-BR",{day:"2-digit",month:"short",year:"numeric"});
 const stInfo   = s=>({reportado:{label:"Reportado",icon:"🔵"},em_analise:{label:"Em análise",icon:"🟡"},corrigido:{label:"Corrigido",icon:"✅"}}[s]||{label:"Reportado",icon:"🔵"});
-const showName = r => currentUser ? (r.user_name||"Anônimo") : "Anônimo";
+let userProfile = {}; // cache do perfil do usuário logado
+const showName = r => r.user_name || "Anônimo";
 
 // Formata endereço cru do Nominatim para exibição limpa no card
 // Ex: "Avenida Brasil, 1200, Vila Bras, Foz do Iguaçu, Região Geográfica..." → "Avenida Brasil, Nº 1200 — CEP 85863-000 — Foz do Iguaçu — PR — Brasil"
@@ -993,13 +994,14 @@ async function openProfileDrawer() {
   // Busca dados atuais do perfil
   let profile = {};
   try {
-    const d = await sbFetch(`/rest/v1/profiles?id=eq.${currentUser.id}&select=nickname,name,email`);
+    const d = await sbFetch(`/rest/v1/profiles?id=eq.${currentUser.id}&select=nickname,name,email,use_nickname`);
     profile = d?.[0] || {};
   } catch {}
 
-  const currentName     = profile.name || currentUser.user_metadata?.full_name || "";
-  const currentEmail    = currentUser.email || "";
-  const currentNickname = profile.nickname || "";
+  const currentName      = profile.name || currentUser.user_metadata?.full_name || "";
+  const currentEmail     = currentUser.email || "";
+  const currentNickname  = profile.nickname || "";
+  const useNick          = profile.use_nickname !== false; // default true
 
   // Cria overlay
   const overlay = document.createElement("div");
@@ -1017,19 +1019,31 @@ async function openProfileDrawer() {
       <button class="close-btn" id="drawer-close-btn">✕</button>
     </div>
     <div class="drawer-body">
-      <p style="font-size:.8rem;color:var(--muted);margin-bottom:20px;line-height:1.5">
-        Seu <strong style="color:var(--text)">nickname</strong> é o que aparece nos reportes — mantendo seu anonimato se quiser.
-      </p>
       <div class="form-group">
-        <label class="form-label">Nickname público *</label>
+        <label class="form-label">Nickname público</label>
         <input id="d-nick" class="form-input" placeholder="Ex: CidadaoFoz, Motorista123" maxlength="30"/>
-        <p style="font-size:.68rem;color:var(--muted);margin-top:5px">Aparece no lugar do seu nome nos reportes</p>
+        <p style="font-size:.68rem;color:var(--muted);margin-top:5px">Apelido que aparece nos reportes</p>
       </div>
       <div class="form-group">
         <label class="form-label">Nome completo</label>
         <input id="d-name" class="form-input" placeholder="Seu nome" maxlength="80"/>
-        <p style="font-size:.68rem;color:var(--muted);margin-top:5px">Privado — não é exibido publicamente</p>
+        <p style="font-size:.68rem;color:var(--muted);margin-top:5px">Seu nome real (pode ser exibido se preferir)</p>
       </div>
+
+      <div class="form-group" style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px">
+        <label class="form-label" style="margin-bottom:10px">Como quer aparecer nos reportes?</label>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
+            <input type="radio" id="d-use-nick" name="d-display" value="nick" style="accent-color:var(--accent);width:16px;height:16px"/>
+            <span style="font-size:.84rem;color:var(--text)">Usar meu <strong>nickname</strong> <span style="color:var(--muted);font-size:.75rem">(mais privado)</span></span>
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
+            <input type="radio" id="d-use-name" name="d-display" value="name" style="accent-color:var(--accent);width:16px;height:16px"/>
+            <span style="font-size:.84rem;color:var(--text)">Usar meu <strong>nome completo</strong></span>
+          </label>
+        </div>
+      </div>
+
       <div class="form-group">
         <label class="form-label">E-mail</label>
         <input id="d-email" class="form-input" disabled style="opacity:.5;cursor:not-allowed"/>
@@ -1046,25 +1060,27 @@ async function openProfileDrawer() {
   document.body.appendChild(overlay);
   document.body.appendChild(drawer);
 
-  // Preenche valores via JS (evita problemas com aspas no HTML)
+  // Preenche valores via JS
   document.getElementById("d-nick").value  = currentNickname;
   document.getElementById("d-name").value  = currentName;
   document.getElementById("d-email").value = currentEmail;
+  document.getElementById(useNick ? "d-use-nick" : "d-use-name").checked = true;
 
-  // Eventos via addEventListener (não onclick inline)
+  // Eventos
   document.getElementById("drawer-close-btn").addEventListener("click",  closeDrawer);
   document.getElementById("drawer-cancel-btn").addEventListener("click", closeDrawer);
   document.getElementById("drawer-save-btn").addEventListener("click",   saveProfileDrawer);
 
-  // Foco no nickname
   setTimeout(() => document.getElementById("d-nick")?.focus(), 100);
 }
 
 async function saveProfileDrawer() {
-  const nickEl = document.getElementById("d-nick");
-  const nameEl = document.getElementById("d-name");
-  const nick = nickEl?.value?.trim();
-  const name = nameEl?.value?.trim();
+  const nickEl    = document.getElementById("d-nick");
+  const nameEl    = document.getElementById("d-name");
+  const useNickEl = document.getElementById("d-use-nick");
+  const nick      = nickEl?.value?.trim();
+  const name      = nameEl?.value?.trim();
+  const useNick   = useNickEl?.checked ?? true;
 
   if (!nick) {
     showToast("⚠️","Nickname obrigatório","Escolha um nickname.");
@@ -1080,14 +1096,15 @@ async function saveProfileDrawer() {
       method: "POST",
       headers: { "Prefer": "resolution=merge-duplicates,return=minimal" },
       body: JSON.stringify({
-        id:       currentUser.id,
-        nickname: nick,
-        name:     name || "",
-        email:    currentUser.email || ""
+        id:           currentUser.id,
+        nickname:     nick,
+        name:         name || "",
+        email:        currentUser.email || "",
+        use_nickname: useNick
       })
     });
     closeDrawer();
-    showToast("✅", "Perfil salvo!", `Nickname: ${nick}`);
+    showToast("✅", "Perfil salvo!", `Exibindo: ${useNick ? nick : name || nick}`);
   } catch(e) {
     console.error("Erro ao salvar perfil:", e);
     if (btn) { btn.disabled = false; btn.innerHTML = "✅ Salvar"; }
@@ -1405,8 +1422,15 @@ async function submit(gps) {
     const photo_url  = urls[0] || null;
     const photo_urls = urls.length > 1 ? JSON.stringify(urls) : null;
 
-    let nick=currentUser?.user_metadata?.full_name||currentUser?.email||"Anônimo";
-    try{const p=await sbFetch(`/rest/v1/profiles?id=eq.${currentUser.id}&select=nickname`);if(p?.[0]?.nickname)nick=p[0].nickname;}catch{}
+    let nick = currentUser?.user_metadata?.full_name || currentUser?.email || "Anônimo";
+    try {
+      const p = await sbFetch(`/rest/v1/profiles?id=eq.${currentUser.id}&select=nickname,name,use_nickname`);
+      if (p?.[0]) {
+        const prof = p[0];
+        const useNick = prof.use_nickname !== false;
+        nick = useNick ? (prof.nickname || nick) : (prof.name || prof.nickname || nick);
+      }
+    } catch {}
 
     const payload={user_id:currentUser?.id||null,user_name:nick,lat:_loc.lat,lng:_loc.lng,address:_loc.address,comment:document.getElementById("r-comment")?.value||null,photo_url,photo_urls,severity:_sev};
     const res=await sbFetch("/rest/v1/reports",{method:"POST",body:JSON.stringify(payload)});
@@ -1521,7 +1545,14 @@ async function sendComment(reportId) {
 
   sendBtn.disabled = true;
   let nick = currentUser.user_metadata?.full_name || currentUser.email || "Anônimo";
-  try { const p = await sbFetch(`/rest/v1/profiles?id=eq.${currentUser.id}&select=nickname`); if(p?.[0]?.nickname) nick=p[0].nickname; } catch {}
+  try {
+    const p = await sbFetch(`/rest/v1/profiles?id=eq.${currentUser.id}&select=nickname,name,use_nickname`);
+    if (p?.[0]) {
+      const prof = p[0];
+      const useNick = prof.use_nickname !== false;
+      nick = useNick ? (prof.nickname || nick) : (prof.name || prof.nickname || nick);
+    }
+  } catch {}
 
   try {
     await sbFetch("/rest/v1/comments", {
