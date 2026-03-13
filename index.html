@@ -63,6 +63,35 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--font-body);mi
 .drawer-overlay{position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,.6);backdrop-filter:blur(4px)}
 .drawer{position:fixed;top:0;right:0;height:100%;width:340px;max-width:92vw;background:var(--surface);border-left:1px solid var(--border);z-index:3001;display:flex;flex-direction:column;animation:slideIn .25s ease}
 @keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.discuss-drawer{position:fixed;bottom:0;left:0;right:0;height:70vh;max-height:70vh;background:var(--surface);border-top:2px solid var(--accent);border-radius:20px 20px 0 0;z-index:3001;display:flex;flex-direction:column;animation:slideUpDiscuss .3s ease}
+@keyframes slideUpDiscuss{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.discuss-header{padding:16px 20px 12px;border-bottom:1px solid var(--border);flex-shrink:0;position:relative}
+.discuss-handle{width:40px;height:4px;background:var(--border);border-radius:4px;margin:0 auto 12px}
+.discuss-title{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:2px;font-family:var(--font-head)}
+.discuss-subtitle{font-size:.72rem;color:var(--muted)}
+.discuss-close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;padding:4px 8px;border-radius:6px}
+.discuss-close:hover{background:var(--surface2);color:var(--text)}
+.discuss-messages{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:14px}
+.discuss-msg{display:flex;gap:10px;align-items:flex-start}
+.discuss-avatar{width:32px;height:32px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--text);flex-shrink:0}
+.discuss-bubble{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:0 12px 12px 12px;padding:10px 12px}
+.discuss-msg-own .discuss-bubble{background:rgba(249,115,22,.08);border-color:rgba(249,115,22,.25);border-radius:12px 0 12px 12px}
+.discuss-msg-own{flex-direction:row-reverse}
+.discuss-msg-header{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.discuss-msg-name{font-size:.72rem;font-weight:700;color:var(--accent)}
+.discuss-msg-date{font-size:.65rem;color:var(--muted)}
+.discuss-msg-del{margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:.7rem;padding:0 2px;opacity:.5}
+.discuss-msg-del:hover{opacity:1;color:var(--danger)}
+.discuss-msg-text{font-size:.82rem;color:var(--text);line-height:1.5;word-break:break-word}
+.discuss-input-area{padding:12px 16px;border-top:1px solid var(--border);flex-shrink:0;display:flex;gap:8px;align-items:flex-end}
+.discuss-textarea{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:var(--font-body);font-size:.84rem;padding:10px 12px;resize:none;outline:none;max-height:80px;min-height:40px;line-height:1.4}
+.discuss-textarea:focus{border-color:var(--accent)}
+.discuss-send{background:var(--accent);border:none;border-radius:10px;color:#fff;padding:10px 14px;cursor:pointer;font-size:.9rem;flex-shrink:0;transition:opacity .2s}
+.discuss-send:hover{opacity:.85}
+.discuss-send:disabled{opacity:.4;cursor:default}
+.discuss-login-msg{text-align:center;padding:14px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;margin:0 20px 12px;font-size:.82rem;color:var(--muted)}
+.discuss-empty{text-align:center;color:var(--muted);font-size:.84rem;padding:30px 0}
+.discuss-loading{text-align:center;color:var(--muted);font-size:.82rem;padding:20px 0}
 .drawer-header{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 0}
 .drawer-title{font-family:var(--font-head);font-size:1.05rem;font-weight:700}
 .drawer-body{padding:20px;flex:1;overflow-y:auto}
@@ -75,6 +104,8 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--font-body);mi
 .stat-label{font-size:.67rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
 
 /* MAP */
+.banner-slot{width:100%;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.banner-inner{max-width:1200px;margin:0 auto;padding:8px 16px;min-height:106px;display:flex;align-items:center;justify-content:center}
 .map-section{position:relative}
 #map{width:100%;height:480px;z-index:1}
 .map-controls{position:absolute;top:14px;right:56px;z-index:500}
@@ -148,6 +179,9 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--font-body);mi
 .vote-btn:hover,.vote-btn.voted{border-color:var(--accent);color:var(--accent)}
 .vote-btn.voted{background:rgba(249,115,22,.1);font-weight:600}
 .share-btn{display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);font-size:.74rem;cursor:pointer;transition:all .2s;font-family:var(--font-body);margin-left:auto}
+.forum-btn{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;border:1px solid rgba(249,115,22,.35);background:rgba(249,115,22,.08);color:var(--accent);font-size:.74rem;cursor:pointer;transition:all .2s;font-family:var(--font-body);white-space:nowrap}
+.forum-btn:hover{background:rgba(249,115,22,.18)}
+.forum-btn-txt{font-size:.72rem}
 .share-btn:hover{border-color:rgba(255,255,255,.2);color:var(--text)}
 
 /* MODAL */
@@ -277,6 +311,7 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--font-body);mi
   .nav-logo-icon img{width:36px;height:36px}
   .btn{padding:7px 11px;font-size:.78rem}
   .btn .btn-txt{display:none}
+  .forum-btn-txt{display:none}
   #map{height:280px}
   .map-controls{top:8px;right:44px}
   .map-legend{display:none}
@@ -292,6 +327,7 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--font-body);mi
   .drawer{width:100%;max-width:100%;border-left:none;border-top:1px solid var(--border);border-radius:18px 18px 0 0;top:auto;bottom:0;height:auto;max-height:90vh;animation:slideUp2 .25s ease}
   @keyframes slideUp2{from{transform:translateY(100%)}to{transform:translateY(0)}}
   .avatar-dropdown{right:-4px;min-width:175px}
+  .discuss-drawer{height:80vh;max-height:80vh}
 }
 @media(max-width:380px){
   .nav-logo-text{display:none}
@@ -322,6 +358,19 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--font-body);mi
   <div class="stat-item"><div class="stat-num" id="stat-high" style="color:var(--danger)">0</div><div class="stat-label">Graves</div></div>
   <div class="stat-item"><div class="stat-num" id="stat-medium" style="color:var(--warn)">0</div><div class="stat-label">Moderados</div></div>
   <div class="stat-item"><div class="stat-num" id="stat-low" style="color:var(--success)">0</div><div class="stat-label">Leves</div></div>
+</div>
+
+
+<div class="banner-slot">
+  <div class="banner-inner">
+    <ins class="adsbygoogle"
+      style="display:block;width:100%;height:90px"
+      data-ad-client="ca-pub-8794962737137666"
+      data-ad-slot="auto"
+      data-ad-format="horizontal"
+      data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
 </div>
 
 <div class="map-section">
@@ -472,7 +521,7 @@ async function validateAndConvertImage(file) {
 
 const SUPABASE_URL  = "https://vbzhbetnpmhqqdiwjebg.supabase.co";
 const SUPABASE_KEY  = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZiemhiZXRucG1ocXFkaXdqZWJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5MTQwNTMsImV4cCI6MjA4ODQ5MDA1M30.1Cm9DU7SEbr7GkoD0PBezX4FFngo0agwZ4Gr7wVsRRs";
-const MASTER_EMAIL  = "anisioramos.mkt@gmail.com";
+const MASTER_ID     = "8efc494e-6da7-4321-9e1f-8d7d8d9c307a";
 
 let currentUser = null, allReports = [], currentFilter = "all", viewMode = "grid";
 let mapMode = "heat", map, heatLayer, pinsLayer, sessionToken = null;
@@ -644,7 +693,10 @@ function setViewMode(mode) {
 function renderReports() {
   const filtered = currentFilter==="all"?allReports:allReports.filter(r=>r.severity===currentFilter);
   const ctr = document.getElementById("reports-container");
-  document.getElementById("result-count").textContent = filtered.length+" resultado"+(filtered.length!==1?"s":"");
+  const total = filtered.length;
+  const showing = filtered.slice(0, 9);
+
+  document.getElementById("result-count").textContent = total+" resultado"+(total!==1?"s":"");
   document.querySelectorAll("[data-filter]").forEach(b=>{
     b.classList.toggle("active",b.dataset.filter===currentFilter);
     const counts={all:allReports.length,high:allReports.filter(r=>r.severity==="high").length,medium:allReports.filter(r=>r.severity==="medium").length,low:allReports.filter(r=>r.severity==="low").length};
@@ -652,6 +704,25 @@ function renderReports() {
     b.textContent=`${labels[b.dataset.filter]} (${counts[b.dataset.filter]})`;
   });
   if (!filtered.length) { ctr.innerHTML=`<div class="empty-state"><div class="empty-state-icon">🕳️</div><h3>Nenhum reporte ainda</h3><p>Seja o primeiro a reportar um buraco!</p></div>`; return; }
+
+  const grid = viewMode==="list"
+    ? `<div class="reports-list">${showing.map(renderList).join("")}</div>`
+    : `<div class="reports-grid">${showing.map(renderGrid).join("")}</div>`;
+
+  const verMaisBtn = total > 9
+    ? `<div style="text-align:center;margin-top:20px">
+        <button onclick="renderAllReports()" class="btn btn-ghost" style="padding:10px 28px;font-size:.85rem">
+          Ver todos os ${total} reportes ↓
+        </button>
+       </div>`
+    : "";
+
+  ctr.innerHTML = grid + verMaisBtn;
+}
+
+function renderAllReports() {
+  const filtered = currentFilter==="all"?allReports:allReports.filter(r=>r.severity===currentFilter);
+  const ctr = document.getElementById("reports-container");
   ctr.innerHTML = viewMode==="list"
     ? `<div class="reports-list">${filtered.map(renderList).join("")}</div>`
     : `<div class="reports-grid">${filtered.map(renderGrid).join("")}</div>`;
@@ -712,19 +783,38 @@ function renderGrid(r) {
     ${pendingBar}
     <div class="card-actions">
       <button class="vote-btn${voted?" voted":""}" onclick="toggleVote(${r.id},${voted})">👍 ${votes>0?`<strong>${votes}</strong>`:""}</button>
+      <button class="forum-btn" onclick="openDiscussion(${r.id},'${(r.address||"").replace(/'/g,"\\'")}')">💬 <span class="forum-btn-txt">Fórum do Buraco</span></button>
       <button class="share-btn" onclick="shareModal(${r.id},'${(r.address||"").replace(/'/g,"\\'")}','${r.severity}')">🔗</button>
       ${delBtn}
     </div>
     <div class="report-footer" style="margin-top:7px;padding-top:7px;border-top:1px solid var(--border)">
       <div class="report-user"><div class="report-avatar">${initials(showName(r))}</div><span class="report-username">${showName(r)}</span></div>
-      <span title="Brasil" style="font-size:1.1rem">🇧🇷</span>
+      <span title="Brasil"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15"><rect width="22" height="15" fill="#009c3b"/><polygon points="11,1.5 20.5,7.5 11,13.5 1.5,7.5" fill="#FFDF00"/><circle cx="11" cy="7.5" r="3.2" fill="#002776"/><path d="M8,6.8 Q11,5.5 14,6.8" stroke="white" stroke-width="0.6" fill="none"/></svg></span>
     </div>
   </div>`;
 }
 
 function renderList(r) {
   const votes=r.vote_count||0, voted=userVotes.has(Number(r.id));
-  return `<div class="report-list-item"><div class="list-photo" onclick="flyTo(${r.lat},${r.lng})">${r.photo_url?`<img src="${r.photo_url}" alt=""/>`:"📷"}</div><div><div class="list-address">📍 ${cleanAddress(r.address)}</div><div class="list-comment">${r.comment||"Sem comentário."}</div><div class="list-meta"><span class="severity-badge sev-${r.severity}">${sevLabel(r.severity)}</span><span style="font-size:.68rem;color:var(--muted)">${stInfo(r.status||"reportado").icon} ${stInfo(r.status||"reportado").label}</span><span style="font-size:.68rem;color:var(--muted)">👍 ${votes}</span><span style="font-size:.68rem;color:var(--muted)">${showName(r)}</span></div></div><div class="list-actions"><span style="font-size:.7rem;color:var(--muted)">${fmtDate(r.created_at)}</span><button class="vote-btn${voted?" voted":""}" onclick="toggleVote(${r.id},${voted})">👍 ${votes}</button><button class="share-btn" onclick="shareModal(${r.id},'${(r.address||"").replace(/'/g,"\\'")}','${r.severity}')">🔗</button></div></div>`;
+  return `<div class="report-list-item">
+    <div class="list-photo" onclick="flyTo(${r.lat},${r.lng})">${r.photo_url?`<img src="${r.photo_url}" alt=""/>`:"📷"}</div>
+    <div style="flex:1;min-width:0">
+      <div class="list-address">📍 ${cleanAddress(r.address)}</div>
+      <div class="list-comment">${r.comment||"Sem comentário."}</div>
+      <div class="list-meta">
+        <span class="severity-badge sev-${r.severity}">${sevLabel(r.severity)}</span>
+        <span style="font-size:.68rem;color:var(--muted)">${stInfo(r.status||"reportado").icon} ${stInfo(r.status||"reportado").label}</span>
+        <span style="font-size:.68rem;color:var(--muted)">👍 ${votes}</span>
+        <span style="font-size:.68rem;color:var(--muted)">${showName(r)}</span>
+      </div>
+    </div>
+    <div class="list-actions">
+      <span style="font-size:.7rem;color:var(--muted)">${fmtDate(r.created_at)}</span>
+      <button class="vote-btn${voted?" voted":""}" onclick="toggleVote(${r.id},${voted})">👍 ${votes}</button>
+      <button class="forum-btn" onclick="openDiscussion(${r.id},'${(r.address||"").replace(/'/g,"\\'")}')">💬 <span class="forum-btn-txt">Fórum</span></button>
+      <button class="share-btn" onclick="shareModal(${r.id},'${(r.address||"").replace(/'/g,"\\'")}','${r.severity}')">🔗</button>
+    </div>
+  </div>`;
 }
 
 // ── VOTES / STATUS ──
@@ -1304,10 +1394,10 @@ async function submit(gps) {
     _loc={lat,lng,address:a};
   }
   if(!_loc){showToast("⚠️","Localização pendente");return;}
+  const validPhotos = _photos.filter(p=>p&&p.file);
+  if(!validPhotos.length){showToast("⚠️","Foto obrigatória","Tire ou selecione pelo menos 1 foto do buraco.");return;}
   const btn=document.getElementById("sb"); btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Enviando...';
   try {
-    // Upload de todas as fotos válidas
-    const validPhotos = _photos.filter(p=>p&&p.file);
     const urls = [];
     for (const p of validPhotos) {
       try { urls.push(await uploadPhoto(p.file)); } catch {}
@@ -1329,6 +1419,135 @@ async function submit(gps) {
 }
 
 function closeModal(){document.getElementById("modal-container").innerHTML="";}
+
+// ── DISCUSSÃO ──
+function closeDiscussion() {
+  document.getElementById("discuss-overlay")?.remove();
+  document.getElementById("discuss-drawer")?.remove();
+}
+
+async function openDiscussion(reportId, addr) {
+  closeDiscussion();
+
+  const shortAddr = addr.length > 50 ? addr.substring(0,50)+"..." : addr;
+
+  const overlay = document.createElement("div");
+  overlay.id = "discuss-overlay";
+  overlay.className = "drawer-overlay";
+  overlay.addEventListener("click", closeDiscussion);
+  document.body.appendChild(overlay);
+
+  const drawer = document.createElement("div");
+  drawer.id = "discuss-drawer";
+  drawer.className = "discuss-drawer";
+  drawer.innerHTML = `
+    <div class="discuss-header">
+      <div class="discuss-handle"></div>
+      <div class="discuss-title">💬 Discussão</div>
+      <div class="discuss-subtitle">📍 ${shortAddr}</div>
+      <button class="discuss-close" id="discuss-close-btn">✕</button>
+    </div>
+    <div class="discuss-messages" id="discuss-messages">
+      <div class="discuss-loading">Carregando discussão...</div>
+    </div>
+    ${currentUser ? `
+    <div class="discuss-input-area">
+      <textarea class="discuss-textarea" id="discuss-input" placeholder="Escreva um comentário..." maxlength="500" rows="1"></textarea>
+      <button class="discuss-send" id="discuss-send-btn">➤</button>
+    </div>` : `
+    <div class="discuss-login-msg">
+      <span>👋 <strong>Entre</strong> para participar da discussão</span>
+      <button onclick="closeDiscussion();showLoginModal()" style="margin-left:10px;background:var(--accent);border:none;color:#fff;padding:5px 12px;border-radius:8px;cursor:pointer;font-size:.78rem">Entrar</button>
+    </div>`}`;
+
+  document.body.appendChild(drawer);
+
+  document.getElementById("discuss-close-btn").addEventListener("click", closeDiscussion);
+
+  if (currentUser) {
+    const sendBtn = document.getElementById("discuss-send-btn");
+    const input   = document.getElementById("discuss-input");
+
+    input.addEventListener("keydown", e => {
+      if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendComment(reportId); }
+    });
+    input.addEventListener("input", () => {
+      sendBtn.disabled = !input.value.trim();
+    });
+    sendBtn.disabled = true;
+    sendBtn.addEventListener("click", () => sendComment(reportId));
+  }
+
+  await loadComments(reportId);
+}
+
+async function loadComments(reportId) {
+  const box = document.getElementById("discuss-messages");
+  if (!box) return;
+  try {
+    const data = await sbFetch(`/rest/v1/comments?report_id=eq.${reportId}&order=created_at.asc&select=*`);
+    if (!data || !data.length) {
+      box.innerHTML = `<div class="discuss-empty">🗨️ Nenhum comentário ainda.<br><span style="font-size:.75rem">Seja o primeiro a comentar!</span></div>`;
+      return;
+    }
+    box.innerHTML = data.map(c => {
+      const isOwn  = currentUser && c.user_id === currentUser.id;
+      const isAdm  = currentUser && currentUser.id === MASTER_ID;
+      const canDel = isOwn || isAdm;
+      const av     = (c.user_name||"?").split(" ").slice(0,2).map(x=>x[0]).join("").toUpperCase();
+      return `<div class="discuss-msg${isOwn?" discuss-msg-own":""}">
+        <div class="discuss-avatar">${av}</div>
+        <div class="discuss-bubble${isOwn?" discuss-bubble-own":""}">
+          <div class="discuss-msg-header">
+            <span class="discuss-msg-name">${c.user_name||"Anônimo"}</span>
+            <span class="discuss-msg-date">${fmtDate(c.created_at)}</span>
+            ${canDel?`<button class="discuss-msg-del" onclick="deleteComment(${c.id},${reportId})">🗑️</button>`:""}
+          </div>
+          <div class="discuss-msg-text">${c.content.replace(/</g,"&lt;").replace(/>/g,"&gt;")}</div>
+        </div>
+      </div>`;
+    }).join("");
+    box.scrollTop = box.scrollHeight;
+  } catch(e) {
+    box.innerHTML = `<div class="discuss-empty">Erro ao carregar comentários.</div>`;
+  }
+}
+
+async function sendComment(reportId) {
+  const input   = document.getElementById("discuss-input");
+  const sendBtn = document.getElementById("discuss-send-btn");
+  const content = input?.value?.trim();
+  if (!content || !currentUser) return;
+
+  sendBtn.disabled = true;
+  let nick = currentUser.user_metadata?.full_name || currentUser.email || "Anônimo";
+  try { const p = await sbFetch(`/rest/v1/profiles?id=eq.${currentUser.id}&select=nickname`); if(p?.[0]?.nickname) nick=p[0].nickname; } catch {}
+
+  try {
+    await sbFetch("/rest/v1/comments", {
+      method: "POST",
+      headers: { "Prefer": "return=minimal" },
+      body: JSON.stringify({ report_id: reportId, user_id: currentUser.id, user_name: nick, content })
+    });
+    input.value = "";
+    sendBtn.disabled = true;
+    await loadComments(reportId);
+  } catch(e) {
+    showToast("❌","Erro","Não foi possível enviar o comentário.");
+    sendBtn.disabled = false;
+  }
+}
+
+async function deleteComment(commentId, reportId) {
+  if (!confirm("Excluir este comentário?")) return;
+  try {
+    await sbFetch(`/rest/v1/comments?id=eq.${commentId}`, {
+      method: "DELETE",
+      headers: { "Prefer": "return=minimal" }
+    });
+    await loadComments(reportId);
+  } catch { showToast("❌","Erro","Não foi possível excluir."); }
+}
 function signInWithGoogle(){window.location.href=SUPABASE_URL+"/auth/v1/authorize?provider=google&redirect_to="+encodeURIComponent("https://buraco-na-cidade.vercel.app");}
 
 // ── TOAST ──
@@ -1348,7 +1567,7 @@ async function init() {
   const session=await getSession();
   if (session?.user&&session?.access_token) {
     currentUser=session.user; sessionToken=session.access_token;
-    isAdmin=(currentUser.email===MASTER_EMAIL);
+    isAdmin=(currentUser.id===MASTER_ID);
     updateNav(); await loadUserVotes(); renderReports();
     await checkProfileSetup();
     showToast("👋","Bem-vindo!","Olá, "+(currentUser.user_metadata?.full_name?.split(" ")[0]||currentUser.email)+"!");
