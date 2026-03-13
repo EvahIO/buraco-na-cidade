@@ -750,13 +750,20 @@ async function updateStatus(id, ns) {
 async function deleteReport(id, isOwner) {
   const msg = isOwner ? "Excluir sua contribuição?" : "Excluir este reporte permanentemente?";
   if (!confirm(msg)) return;
-  if (!isOwner && !isAdmin) return;
+  if (!isOwner && !isAdmin) { showToast("❌","Sem permissão"); return; }
+  const numId = Number(id);
   try {
-    await sbFetch(`/rest/v1/reports?id=eq.${id}`,{method:"DELETE"});
-    allReports=allReports.filter(r=>r.id!==id);
+    await sbFetch(`/rest/v1/reports?id=eq.${numId}`, {
+      method: "DELETE",
+      headers: { "Prefer": "return=minimal" }
+    });
+    allReports = allReports.filter(r => Number(r.id) !== numId);
     updateStats(); updateMap(allReports); renderReports();
-    showToast("🗑️", isOwner?"Sua contribuição foi removida":"Reporte excluído");
-  } catch { showToast("❌","Erro","Não foi possível excluir.") }
+    showToast("🗑️", isOwner ? "Sua contribuição foi removida" : "Reporte excluído");
+  } catch(e) {
+    console.error("Erro ao excluir:", e);
+    showToast("❌","Erro","Não foi possível excluir. Verifique as permissões.");
+  }
 }
 
 // ── SHARE ──
