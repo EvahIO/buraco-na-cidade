@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MPG8Z3LD');</script>
+<!-- End Google Tag Manager -->
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 <meta name="google-adsense-account" content="ca-pub-8794962737137666">
@@ -104,8 +111,55 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--font-body);mi
 .stat-label{font-size:.67rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
 
 /* MAP */
+/* BANNER SLOTS */
 .banner-slot{width:100%;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
 .banner-inner{max-width:1200px;margin:0 auto;padding:8px 16px;min-height:106px;display:flex;align-items:center;justify-content:center}
+
+/* BANNER PUBLICITÁRIO — leaderboard estilo BTR */
+.ad-banner-wrap{width:100%;padding:16px 0}
+.ad-banner-inner{max-width:1100px;margin:0 auto;padding:0 22px}
+.ad-banner-frame{
+  width:100%;
+  border-radius:12px;
+  overflow:hidden;
+  background:var(--surface);
+  border:1px solid var(--border);
+  min-height:90px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+.ad-banner-frame img{
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius:12px;
+  object-fit:cover;
+  max-height:120px;
+}
+.ad-banner-frame .ad-placeholder{
+  width:100%;
+  height:90px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--muted);
+  font-size:.75rem;
+  letter-spacing:.5px;
+}
+.ad-banner-label{
+  font-size:.6rem;
+  color:var(--muted);
+  text-align:right;
+  margin-top:4px;
+  letter-spacing:.5px;
+  opacity:.5;
+}
+
+/* separador visual entre reportes e banner */
+.banner-divider{height:1px;background:var(--border);margin:0}
+
 .map-section{position:relative}
 #map{width:100%;height:480px;z-index:1}
 .map-controls{position:absolute;top:14px;right:56px;z-index:500}
@@ -319,6 +373,12 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--font-body);mi
   .report-list-item{grid-template-columns:44px 1fr;gap:8px}
   .list-actions{display:none}
   .form-row{grid-template-columns:1fr}
+  .ad-banner-wrap{padding:10px 0}
+  .ad-banner-inner{padding:0 12px}
+  .ad-banner-frame{border-radius:8px;min-height:60px}
+  .ad-banner-frame img{max-height:80px;border-radius:8px}
+  .como-funciona-grid{grid-template-columns:1fr !important}
+  #banner-side-frame{min-height:120px !important}
   .share-grid{grid-template-columns:1fr 1fr}
   .stat-num{font-size:1.2rem}
   .stat-label{font-size:.6rem}
@@ -335,6 +395,10 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--font-body);mi
 </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MPG8Z3LD"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 <nav class="nav">
   <div class="nav-logo">
@@ -361,15 +425,14 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--font-body);mi
 </div>
 
 
-<div class="banner-slot">
-  <div class="banner-inner">
-    <ins class="adsbygoogle"
-      style="display:block;width:100%;height:90px"
-      data-ad-client="ca-pub-8794962737137666"
-      data-ad-slot="auto"
-      data-ad-format="horizontal"
-      data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+<!-- BANNER 1 — acima do mapa, abaixo dos stats -->
+<div class="ad-banner-wrap" id="banner-top-wrap">
+  <div class="ad-banner-inner">
+    <div class="ad-banner-frame" id="banner-top-frame">
+      <div class="ad-placeholder">Publicidade</div>
+    </div>
+    <div class="ad-banner-label">PUBLICIDADE</div>
   </div>
 </div>
 
@@ -386,6 +449,16 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--font-body);mi
     <div class="legend-row"><span class="legend-circle" style="background:#ef4444"></span>Alta</div>
     <div class="legend-row"><span class="legend-circle" style="background:#f59e0b"></span>Média</div>
     <div class="legend-row"><span class="legend-circle" style="background:#22c55e"></span>Baixa</div>
+  </div>
+</div>
+
+<!-- BANNER 2 — abaixo do mapa, acima dos reportes -->
+<div class="ad-banner-wrap" id="banner-bottom-wrap">
+  <div class="ad-banner-inner">
+    <div class="ad-banner-frame" id="banner-bottom-frame">
+      <div class="ad-placeholder">Publicidade</div>
+    </div>
+    <div class="ad-banner-label">PUBLICIDADE</div>
   </div>
 </div>
 
@@ -427,27 +500,41 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--font-body);mi
   </p>
 
   <h2 style="font-family:var(--font-head);font-size:1.2rem;color:var(--text);margin-bottom:16px">Como funciona?</h2>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px">
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px">
-      <div style="font-size:1.5rem;margin-bottom:8px">📍</div>
-      <strong style="font-size:.85rem;color:var(--text)">1. Localize</strong>
-      <p style="font-size:.78rem;color:var(--muted);margin-top:4px;line-height:1.5">O GPS detecta automaticamente onde você está e confirma o endereço.</p>
+
+  <div class="como-funciona-grid" style="display:grid;grid-template-columns:1fr 200px;gap:16px;margin-bottom:24px;align-items:stretch">
+
+    <!-- 4 CARDS 2x2 -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:12px">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px">
+        <div style="font-size:1.5rem;margin-bottom:8px">📍</div>
+        <strong style="font-size:.85rem;color:var(--text)">1. Localize</strong>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:4px;line-height:1.5">O GPS detecta automaticamente onde você está e confirma o endereço.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px">
+        <div style="font-size:1.5rem;margin-bottom:8px">📷</div>
+        <strong style="font-size:.85rem;color:var(--text)">2. Fotografe</strong>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:4px;line-height:1.5">Tire até 4 fotos do buraco direto pelo celular ou galeria.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px">
+        <div style="font-size:1.5rem;margin-bottom:8px">🗺️</div>
+        <strong style="font-size:.85rem;color:var(--text)">3. Registre</strong>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:4px;line-height:1.5">Seu reporte aparece no mapa público e fica visível para toda a comunidade.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px">
+        <div style="font-size:1.5rem;margin-bottom:8px">👍</div>
+        <strong style="font-size:.85rem;color:var(--text)">4. Vote</strong>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:4px;line-height:1.5">Confirme reportes de outros moradores e ajude a priorizar os mais graves.</p>
+      </div>
     </div>
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px">
-      <div style="font-size:1.5rem;margin-bottom:8px">📷</div>
-      <strong style="font-size:.85rem;color:var(--text)">2. Fotografe</strong>
-      <p style="font-size:.78rem;color:var(--muted);margin-top:4px;line-height:1.5">Tire até 4 fotos do buraco direto pelo celular ou galeria.</p>
+
+    <!-- BANNER VERTICAL LATERAL -->
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <div id="banner-side-frame" style="border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--surface);height:100%;min-height:200px;display:flex;align-items:center;justify-content:center;position:sticky;top:80px">
+        <div style="font-size:.7rem;color:var(--muted);text-align:center;padding:16px;line-height:1.6">Publicidade</div>
+      </div>
+      <div style="font-size:.6rem;color:var(--muted);text-align:right;opacity:.4;letter-spacing:.5px">PUBLICIDADE</div>
     </div>
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px">
-      <div style="font-size:1.5rem;margin-bottom:8px">🗺️</div>
-      <strong style="font-size:.85rem;color:var(--text)">3. Registre</strong>
-      <p style="font-size:.78rem;color:var(--muted);margin-top:4px;line-height:1.5">Seu reporte aparece no mapa público e fica visível para toda a comunidade.</p>
-    </div>
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px">
-      <div style="font-size:1.5rem;margin-bottom:8px">👍</div>
-      <strong style="font-size:.85rem;color:var(--text)">4. Vote</strong>
-      <p style="font-size:.78rem;color:var(--muted);margin-top:4px;line-height:1.5">Confirme reportes de outros moradores e ajude a priorizar os mais graves.</p>
-    </div>
+
   </div>
 
   <h2 style="font-family:var(--font-head);font-size:1.2rem;color:var(--text);margin-bottom:12px">Por que reportar?</h2>
@@ -526,6 +613,7 @@ const MASTER_ID     = "8efc494e-6da7-4321-9e1f-8d7d8d9c307a";
 let currentUser = null, allReports = [], currentFilter = "all", viewMode = "grid";
 let mapMode = "heat", map, heatLayer, pinsLayer, sessionToken = null;
 let userVotes = new Set(), isAdmin = false;
+let commentCounts = {}; // cache: reportId → count de comentários
 
 // ── SUPABASE ──
 async function sbFetch(path, opts={}) {
@@ -556,6 +644,14 @@ async function getSession() {
 
 async function loadReports() {
   try { return (await sbFetch("/rest/v1/reports_with_votes?select=*&order=created_at.desc"))||[]; } catch { return []; }
+}
+
+async function loadCommentCounts() {
+  try {
+    const data = await sbFetch("/rest/v1/comments?select=report_id");
+    commentCounts = {};
+    (data||[]).forEach(c => { commentCounts[c.report_id] = (commentCounts[c.report_id]||0)+1; });
+  } catch {}
 }
 
 async function uploadPhoto(file) {
@@ -784,7 +880,7 @@ function renderGrid(r) {
     ${pendingBar}
     <div class="card-actions">
       <button class="vote-btn${voted?" voted":""}" onclick="toggleVote(${r.id},${voted})">👍 ${votes>0?`<strong>${votes}</strong>`:""}</button>
-      <button class="forum-btn" onclick="openDiscussion(${r.id},'${(r.address||"").replace(/'/g,"\\'")}')">💬 <span class="forum-btn-txt">Fórum do Buraco</span></button>
+      <button class="forum-btn" onclick="openDiscussion(${r.id},'${(r.address||"").replace(/'/g,"\\'")}')">💬 <span class="forum-btn-txt">Fórum do Buraco</span>${commentCounts[r.id]>0?`<span style="background:var(--accent);color:#fff;border-radius:10px;padding:1px 6px;font-size:.65rem;font-weight:700;margin-left:2px">${commentCounts[r.id]}</span>`:""}</button>
       <button class="share-btn" onclick="shareModal(${r.id},'${(r.address||"").replace(/'/g,"\\'")}','${r.severity}')">🔗</button>
       ${delBtn}
     </div>
@@ -812,7 +908,7 @@ function renderList(r) {
     <div class="list-actions">
       <span style="font-size:.7rem;color:var(--muted)">${fmtDate(r.created_at)}</span>
       <button class="vote-btn${voted?" voted":""}" onclick="toggleVote(${r.id},${voted})">👍 ${votes}</button>
-      <button class="forum-btn" onclick="openDiscussion(${r.id},'${(r.address||"").replace(/'/g,"\\'")}')">💬 <span class="forum-btn-txt">Fórum</span></button>
+      <button class="forum-btn" onclick="openDiscussion(${r.id},'${(r.address||"").replace(/'/g,"\\'")}')">💬 <span class="forum-btn-txt">Fórum</span>${commentCounts[r.id]>0?`<span style="background:var(--accent);color:#fff;border-radius:10px;padding:1px 6px;font-size:.65rem;font-weight:700;margin-left:2px">${commentCounts[r.id]}</span>`:""}</button>
       <button class="share-btn" onclick="shareModal(${r.id},'${(r.address||"").replace(/'/g,"\\'")}','${r.severity}')">🔗</button>
     </div>
   </div>`;
@@ -1467,9 +1563,14 @@ async function openDiscussion(reportId, addr) {
   drawer.innerHTML = `
     <div class="discuss-header">
       <div class="discuss-handle"></div>
-      <div class="discuss-title">💬 Discussão</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
+        <div class="discuss-title">💬 Fórum do Buraco</div>
+        <button class="discuss-close" id="discuss-close-btn">✕</button>
+      </div>
       <div class="discuss-subtitle">📍 ${shortAddr}</div>
-      <button class="discuss-close" id="discuss-close-btn">✕</button>
+      <div id="discuss-participants" style="display:flex;align-items:center;gap:8px;margin-top:8px;min-height:26px">
+        <span style="font-size:.72rem;color:var(--muted)">Carregando participantes...</span>
+      </div>
     </div>
     <div class="discuss-messages" id="discuss-messages">
       <div class="discuss-loading">Carregando discussão...</div>
@@ -1491,13 +1592,10 @@ async function openDiscussion(reportId, addr) {
   if (currentUser) {
     const sendBtn = document.getElementById("discuss-send-btn");
     const input   = document.getElementById("discuss-input");
-
     input.addEventListener("keydown", e => {
       if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendComment(reportId); }
     });
-    input.addEventListener("input", () => {
-      sendBtn.disabled = !input.value.trim();
-    });
+    input.addEventListener("input", () => { sendBtn.disabled = !input.value.trim(); });
     sendBtn.disabled = true;
     sendBtn.addEventListener("click", () => sendComment(reportId));
   }
@@ -1510,6 +1608,30 @@ async function loadComments(reportId) {
   if (!box) return;
   try {
     const data = await sbFetch(`/rest/v1/comments?report_id=eq.${reportId}&order=created_at.asc&select=*`);
+
+    // Participantes únicos
+    const participantsEl = document.getElementById("discuss-participants");
+    if (participantsEl) {
+      if (!data || !data.length) {
+        participantsEl.innerHTML = `<span style="font-size:.72rem;color:var(--muted)">Nenhum participante ainda</span>`;
+      } else {
+        const seen = new Map();
+        data.forEach(c => { if (!seen.has(c.user_id)) seen.set(c.user_id, c.user_name||"?"); });
+        const count = seen.size;
+        const avatarHtml = [...seen.entries()].slice(0,5).map(([uid, name], i) => {
+          const initials = name.split(" ").slice(0,2).map(w=>w[0]).join("").toUpperCase().slice(0,2);
+          const colors = ["#3b82f6","#f97316","#22c55e","#a855f7","#ef4444"];
+          const bg = colors[i % colors.length];
+          return `<div title="${name}" style="width:26px;height:26px;border-radius:50%;background:${bg};color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;border:2px solid var(--surface);margin-left:${i>0?'-6px':'0'};position:relative;z-index:${10-i}">${initials}</div>`;
+        }).join("");
+        const extra = count > 5 ? `<span style="font-size:.72rem;color:var(--muted);margin-left:6px">+${count-5}</span>` : "";
+        participantsEl.innerHTML = `
+          <div style="display:flex;align-items:center;gap:0">${avatarHtml}</div>
+          ${extra}
+          <span style="font-size:.72rem;color:var(--muted);margin-left:${count>5?0:6}px">${count} ${count===1?"pessoa":"pessoas"} participando</span>`;
+      }
+    }
+
     if (!data || !data.length) {
       box.innerHTML = `<div class="discuss-empty">🗨️ Nenhum comentário ainda.<br><span style="font-size:.75rem">Seja o primeiro a comentar!</span></div>`;
       return;
@@ -1588,10 +1710,45 @@ function showToast(icon,title,body=""){
   setTimeout(()=>el.innerHTML="",3500);
 }
 
+// ── BANNERS ──
+async function loadSiteBanners() {
+  try {
+    const data = await sbFetch("/rest/v1/banners?select=*&active=eq.true&order=created_at.desc");
+    if (!data || !data.length) return;
+
+    const topBanners    = data.filter(b => b.position === 'top');
+    const bottomBanners = data.filter(b => b.position === 'middle');
+    const sideBanners   = data.filter(b => b.position === 'bottom');
+
+    function renderBannerSlot(frameId, banners, vertical=false) {
+      if (!banners.length) return;
+      const b = banners[0];
+      const frame = document.getElementById(frameId);
+      if (!frame) return;
+      const link = b.link_url ? `href="${b.link_url}" target="_blank" rel="noopener"` : '';
+      const tag  = b.link_url ? 'a' : 'div';
+      const imgStyle = vertical
+        ? `width:100%;height:auto;display:block;border-radius:12px;object-fit:cover;min-height:240px;object-position:center`
+        : `width:100%;height:auto;display:block;border-radius:12px;object-fit:cover;max-height:120px`;
+      frame.innerHTML = b.image_url
+        ? `<${tag} ${link} style="display:block;width:100%"><img src="${b.image_url}" alt="${b.title}" loading="lazy" style="${imgStyle}"/></${tag}>`
+        : `<div style="padding:20px;text-align:center;color:var(--muted);font-size:.75rem">${b.title}</div>`;
+    }
+
+    renderBannerSlot('banner-top-frame',    topBanners);
+    renderBannerSlot('banner-bottom-frame', bottomBanners);
+    renderBannerSlot('banner-side-frame',   sideBanners, true);
+  } catch(e) {
+    // silencia erro — banners são opcionais
+  }
+}
+
 // ── INIT ──
 async function init() {
   initMap();
   allReports=await loadReports();
+  loadCommentCounts();
+  loadSiteBanners(); // carrega banners em background
   updateStats(); updateMap(allReports);
   document.getElementById("filter-chips").style.display="flex";
   renderReports();
